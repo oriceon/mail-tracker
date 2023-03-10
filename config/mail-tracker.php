@@ -68,6 +68,17 @@ return [
      */
     'connection' => null,
 
+    /*
+    **
+     * Sent emails database table name
+    */
+    'sent-emails-table' => 'sent_emails',
+
+    /**
+     * Sent emails url clicked database table name
+     */
+    'sent-emails-url-clicked-table' => 'sent_emails_url_clicked',
+
     /**
      * The SNS notification topic - if set, discard all notifications not in this topic.
      */

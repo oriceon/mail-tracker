@@ -14,7 +14,7 @@ class AddMessageIdIndexToSentEmailsTable extends Migration
      */
     public function up()
     {
-        Schema::connection(MailTracker::sentEmailModel()->getConnectionName())->table('sent_emails', function (Blueprint $table) {
+        Schema::connection(MailTracker::sentEmailModel()->getConnectionName())->table(MailTracker::sentEmailModel()->getTable(), function (Blueprint $table) {
             $table->index('message_id');
         });
     }
@@ -26,8 +26,8 @@ class AddMessageIdIndexToSentEmailsTable extends Migration
      */
     public function down()
     {
-        Schema::connection(MailTracker::sentEmailModel()->getConnectionName())->table('sent_emails', function (Blueprint $table) {
-            $table->dropIndex('sent_emails_message_id_index');
+        Schema::connection(MailTracker::sentEmailModel()->getConnectionName())->table(MailTracker::sentEmailModel()->getTable(), function (Blueprint $table) {
+            $table->dropIndex(MailTracker::sentEmailModel()->getTable() . '_message_id_index');
         });
     }
 }

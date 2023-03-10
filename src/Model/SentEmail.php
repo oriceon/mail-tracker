@@ -23,6 +23,8 @@ class SentEmail extends Model implements SentEmailModel
 {
     use IsSentEmailModel;
 
+    protected $table;
+
     protected $fillable = [
         'hash',
         'headers',
@@ -45,4 +47,8 @@ class SentEmail extends Model implements SentEmailModel
         'opened_at' => 'datetime',
         'clicked_at' => 'datetime',
     ];
+
+    public function __construct() {
+        $this->table = config('mail-tracker.sent-emails-table', 'sent_email');
+    }
 }

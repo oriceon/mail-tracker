@@ -11,7 +11,7 @@ class SentEmailUrlClicked extends Model implements SentEmailUrlClickedModel
 {
     use IsSentEmailUrlClickedModel;
 
-    protected $table = 'sent_emails_url_clicked';
+    protected $table;
 
     protected $fillable = [
         'sent_email_id',
@@ -19,4 +19,8 @@ class SentEmailUrlClicked extends Model implements SentEmailUrlClickedModel
         'hash',
         'clicks',
     ];
+
+    public function __construct() {
+        $this->table = config('mail-tracker.sent-emails-url-clicked-table', 'sent_emails_url_clicked');
+    }
 }
