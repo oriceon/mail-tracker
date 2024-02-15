@@ -47,16 +47,6 @@ trait IsSentEmailModel
         return '';
     }
 
-    public function getSenderAttribute()
-    {
-        return $this->sender_name . ' <' . $this->sender_email . '>';
-    }
-
-    public function getRecipientAttribute()
-    {
-        return $this->recipient_name . ' <' . $this->recipient_email . '>';
-    }
-
     /**
      * Returns the smtp detail for this message ().
      *
@@ -103,10 +93,10 @@ trait IsSentEmailModel
     /**
      * Get content according to log-content-strategy.
      */
-    public function getContentAttribute(): ?string
+    public function getMessageAttribute(): ?string
     {
-        if ($content = $this->attributes['content']) {
-            return $content;
+        if ($message = $this->attributes['message']) {
+            return $message;
         }
 
         if ($this->meta?->has('content_file_path')) {
