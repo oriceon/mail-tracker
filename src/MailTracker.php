@@ -370,7 +370,7 @@ class MailTracker
 
                 foreach ($emails as $email) {
                     // remove files
-                    if ($email->meta && ($filePath = $email->meta->get('content_file_path'))) {
+                    if ($email->meta && ($filePath = $email->meta->get('message_file_path'))) {
                         Storage::disk(config('mail-tracker.tracker-filesystem'))->delete($filePath);
                     }
 

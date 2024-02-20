@@ -16,7 +16,7 @@ trait IsSentEmailModel
     public static function bootIsSentEmailModel()
     {
         static::deleting(function(Model|SentEmailModel $email) {
-            if ($filePath = $email->meta?->get('content_file_path')) {
+            if ($filePath = $email->meta?->get('message_file_path')) {
                 Storage::disk(config('mail-tracker.tracker-filesystem'))->delete($filePath);
             }
         });
@@ -91,7 +91,7 @@ trait IsSentEmailModel
     }
 
     /**
-     * Get content according to log-content-strategy.
+     * Get message according to log-message-strategy.
      */
     public function getMessageAttribute(): ?string
     {
@@ -99,10 +99,10 @@ trait IsSentEmailModel
             return $message;
         }
 
-        if ($this->meta?->has('content_file_path')) {
-            if ($contentFilePath = $this->meta->get('content_file_path')) {
+        if ($this->meta?->has('message_file_path')) {
+            if ($messageFilePath = $this->meta->get('message_file_path')) {
                 try {
-                    return Storage::disk(config('mail-tracker.tracker-filesystem'))->get($contentFilePath);
+                    return Storage::disk(config('mail-tracker.tracker-filesystem'))->get($messageFilePath);
                 }
                 catch (FileNotFoundException $e) {
                     return null;
@@ -157,27 +157,27 @@ trait IsSentEmailModel
 
     public function fillMessage(string $originalHtml, string $hash)
     {
-        $logContent = config('mail-tracker.log-content', true);
+        $logMessage = config('mail-tracker.log-message', true);
 
-        if ( ! $logContent) {
+        if ( ! $logMessage) {
             return;
         }
 
-        $logContentStrategy = config('mail-tracker.log-content-strategy', 'database');
+        $logMessageStrategy = config('mail-tracker.log-message-strategy', 'database');
 
-        if ( ! in_array($logContentStrategy, ['database', 'filesystem'])) {
+        if ( ! in_array($logMessageStrategy, ['database', 'filesystem'])) {
             return;
         }
 
         // handling filesystem strategy
-        if ($logContentStrategy === 'filesystem') {
+        if ($logMessageStrategy === 'filesystem') {
             // store body in html file
             $basePath        = config('mail-tracker.tracker-filesystem-folder', 'mail-tracker');
             $fileSystem      = config('mail-tracker.tracker-filesystem');
-            $contentFilePath = "{$basePath}/{$hash}.html";
+            $messageFilePath = $basePath . '/' . now()->format('Y-m-d') . '/' . $hash . '.html';
 
             try {
-                Storage::disk($fileSystem)->put($contentFilePath, $originalHtml);
+                Storage::disk($fileSystem)->put($messageFilePath, $originalHtml);
             }
             catch (Exception $e) {
                 Log::warning($e->getMessage());
@@ -185,7 +185,7 @@ trait IsSentEmailModel
             }
 
             $meta = collect($this->meta);
-            $meta->put('content_file_path', $contentFilePath);
+            $meta->put('message_file_path', $messageFilePath);
             $this->meta = $meta;
         }
 

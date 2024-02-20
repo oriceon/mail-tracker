@@ -66,11 +66,11 @@ By default, the content of an e-mail is stored in the `message` column in the da
 If a lot of emails are sent, this can consume a lot of memory and slow down the database overall. It is possible to specify in the configuration that the content should be saved to a file in the file system.
 
 ````php
-    'log-content-strategy' => 'filesystem',
-    'tracker-filesystem' => null
+    'log-message-strategy'      => 'filesystem',
+    'tracker-filesystem'        => null
     'tracker-filesystem-folder' => 'mail-tracker',
 ````
-To use the filesystem you need to change the `log-content-strategy` from `database` to `filesystem`. 
+To use the filesystem you need to change the `log-message-strategy` from `database` to `filesystem`. 
 You can specify the disk with `tracker-filesystem` and the folder it should store the file in with `tracker-filesystem-folder`.
 
 ### Overriding models

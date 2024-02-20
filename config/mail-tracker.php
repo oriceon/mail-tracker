@@ -17,7 +17,7 @@ return [
     'expire-days' => 0,
 
     /*
-     * Where should the pingback URL route be?
+     * Where should the ping-back URL route be?
      */
     'route' => [
         'prefix'     => 'email',
@@ -40,18 +40,18 @@ return [
     'sns-topic' => null,
 
     /*
-     * Determines whether the body of the email is logged in the sent_emails table
+     * Determines whether the body of the email is logged or not
      */
-    'log-content' => true,
+    'log-message' => true,
 
     /*
-     * Determines whether the body should be stored in a file instead of database
+     * Determines whether the message body should be stored in a file instead of database
      * Can be either 'database' or 'filesystem'
      */
-    'log-content-strategy' => 'database',
+    'log-message-strategy' => 'database',
 
     /*
-     * What filesystem we use for storing content html files
+     * What filesystem we use for storing html files
      */
     'tracker-filesystem'        => null,
     'tracker-filesystem-folder' => 'mail-tracker',
