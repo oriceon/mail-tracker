@@ -188,7 +188,8 @@ trait IsSentEmailModel
             $meta->put('message_file_path', $messageFilePath);
             $this->meta = $meta;
         }
-
-        $this->message = $originalHtml;
+        else {
+            $this->message = $originalHtml;
+        }
     }
 }
