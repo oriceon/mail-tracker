@@ -65,4 +65,14 @@ return [
      * Length of time to default past email search - if set, will set the default past limit to the amount of days below (Ex: => 356)
      */
     'search-date-start' => null,
+
+    /*
+     * Convert base64 inline images into local path
+     */
+    'convert-inline-images' => false,
+
+    'inline-images-filesystem'        => null,
+    'inline-images-filesystem-folder' => 'email-images',
+
+    'exclude-inline-images-signature' => '',
 ];
